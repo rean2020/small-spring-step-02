@@ -8,16 +8,19 @@ import cn.bugstack.springframework.beans.factory.config.BeanDefinition;
  * 公众号：bugstack虫洞栈
  * Create by 小傅哥(fustack)
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        Object bean = null;
         try {
-            return beanDefinition.getBeanClass().newInstance();
+            bean = beanDefinition.getBeanClass().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        return null;
+
+        addSingleton(beanName, bean);
+        return bean;
     }
 
 }
